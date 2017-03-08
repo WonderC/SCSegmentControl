@@ -16,3 +16,7 @@
 4、重写代理方法 - (void)segmentControlDidSelected:(UIButton *)btn;
 ```
 
+效果图如下：
+
+https://github.com/WonderC/SCSegmentControl/blob/master/shuru.gif
+

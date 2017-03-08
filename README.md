@@ -18,5 +18,4 @@
 
 效果图如下：
 
-https://github.com/WonderC/SCSegmentControl/blob/master/shuru.gif
-
+![shuru](https://github.com/WonderC/SCSegmentControl/blob/master/shuru.gif)

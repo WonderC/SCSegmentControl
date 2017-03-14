@@ -46,9 +46,29 @@
         else [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         
         btn.titleLabel.font = [UIFont systemFontOfSize:16];
+        btn.frame = CGRectMake(((WIDTH - _count + 1) / _count + 1) * i, 0, (WIDTH - _count + 1) / _count, self.frame.size.height);
         [btn addTarget:self action:@selector(segmentClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn];
     }
+    
+    NSInteger sum = _count;
+    while (sum > 0) {
+        CAShapeLayer *layer  = [CAShapeLayer layer];
+        layer.fillColor = layer.strokeColor = [UIColor lightGrayColor].CGColor;
+        
+        UIBezierPath *path = [UIBezierPath bezierPath];
+        [path moveToPoint:CGPointMake(WIDTH * sum / _count , 5)];
+        [path addLineToPoint:CGPointMake(WIDTH * sum/ _count, self.frame.size.height - 5)];
+        
+        layer.path = path.CGPath;
+        [self.layer addSublayer:layer];
+        sum--;
+    }
+    
+    [self.layer addSublayer:self.BGLineShapeLayer];
+    [self.layer addSublayer:self.lineShapeLayer];
+    [self setPathStartPosition];
+
     
 }
 
@@ -70,41 +90,6 @@
     if (_delegate && [_delegate respondsToSelector:@selector(segmentControlDidSelected:)]) {
         [_delegate segmentControlDidSelected:btn];
     }
-}
-
-- (void)layoutSubviews {
-    
-    [super layoutSubviews];
-    
-    CGFloat w = (self.frame.size.width - _count + 1) / _count;
-    CGFloat h = self.frame.size.height;
-    CGFloat x = 0;
-    CGFloat y = 0;
-    for (int i = 0; i < _count; i++) {
-        UIButton *btn = self.subviews[i];
-        if (i == 0) { x = w * i;}
-        else { x = (w  + 1)* i;}
-        btn.frame = CGRectMake(x, y, w, h);
-    }
-}
-
-- (void)drawRect:(CGRect)rect {
-    
-    NSInteger sum = _count;
-    while (sum > 0) {
-        CGContextRef ctx = UIGraphicsGetCurrentContext();
-        CGContextSetLineWidth(ctx, 1);
-        CGContextSetStrokeColorWithColor(ctx, [UIColor grayColor].CGColor);
-        CGContextBeginPath(ctx);
-        CGContextMoveToPoint(ctx, rect.size.width * sum / _count , 5);
-        CGContextAddLineToPoint(ctx, rect.size.width * sum/ _count, rect.size.height - 5);
-        CGContextStrokePath(ctx);
-        sum--;
-    }
-    
-    [self.layer addSublayer:self.BGLineShapeLayer];
-    [self.layer addSublayer:self.lineShapeLayer];
-    [self setPathStartPosition];
 }
 
 #pragma mark - set start
